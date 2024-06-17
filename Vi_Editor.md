@@ -1,0 +1,65 @@
+https://www.linkedin.com/posts/somanath-jagadale_hi-linkedin-family-it-recently-struck-me-activity-7208091790401277953-G4cR?utm_source=share&utm_medium=member_desktop
+
+Hi LinkedIn Family,
+
+It recently struck me that I've been in the software development game for a decade now. Along the way, I've stumbled, learned, and grown a lot by learning from many skilled & passionate people. So, I thought it’s time to impart the lessons I've picked up over the past 10 years. I promise to share my insights without any strings attached—no partial info, no redirecting you to my personal website, and no need to connect one-on-one. I believe in genuine knowledge sharing, and I know that I can learn a lot from you, too.
+
+To kick things off, let’s talk about a tool that's been my trusty sidekick, my daily companion: The editor.
+
+This isn’t just any editor and Why should you dive into the article below?
+
+1. The most powerful editor that is universally available across Unix-like systems by default.
+2. The editor that keeps pace with your thoughts.
+3. An editor that lets you work without ever touching the mouse.
+4. It allows you to feel a sense of concentration and clarity while coding.
+
+
+How Vi Editor Can Speed Up Your Coding
+
+As a seasoned back-end developer, I’ve had the privilege of working with various text editors and IDEs over the past decade. However, none have come close to matching the simplicity and efficiency offered by the Vi editor. Its universal availability across Unix-like systems ensures I can dive straight into coding without worrying about setup or compatibility issues on any server.
+Vi can seem daunting at first glance. The controls look strange, and the lack of a mouse interface might feel limiting. However, once you get over the initial learning curve, you realize that Vi is far superior for editing configuration files, programs, and other text-based tasks.
+Vi’s controls are based on combining movements and actions, a logic that eventually makes perfect sense. For instance, scrolling with h, j, k, and l may seem counter-intuitive at first, but it allows you to keep your hands on the keyboard, enhancing your editing speed. This might seem crazy initially, but Vim’s concepts are very well thought-out, making text manipulation commands just a key-press or two away.
+Here are some reasons why Vi has become my go-to editor and how it can transform your coding experience:
+The Power of Multi-Buffer Management
+When using a mouse to copy and paste, you typically rely on a single clipboard buffer, which holds only the most recent piece of copied text. In contrast, Vi offers a robust multi-buffer system that significantly enhances your text editing capabilities by allowing you to store and manage multiple pieces of text simultaneously.
+mkykmk
+Where, mk marks the start of the buffer named m.
+ y is the yank (copy) operation. `k specifies the end of the buffer.
+ Paste the Section: Move the cursor to the desired location and type "mp to paste the content of buffer m.
+Powerful Key Mapping
+One of the most powerful features of Vi is the ability to map any key to any repeated and lengthy command. For instance:
+map k :g/search/s//replace/g
+User have just type 'k' to get this typed automatically.
+Seamless File Management and Traversing
+With Vi, you can manage and traverse files without ever leaving the editor:
+- :Explore allows for easy file browsing within Vi, making it simple to navigate directories.
+- :ls, :b#, and :b <Tab> are indispensable for managing buffers efficiently, allowing quick switching between multiple files.
+- Use :! followed by any bash terminal command to execute shell commands directly within Vi
+Advanced Code Navigation
+Navigating through code blocks is intuitive:
+- [[ jumps to the start of a function from the middle of the function body.
+- ]] navigates to the end of a function from the start of the function body.
+- {[ moves to the start of a block (function, if, while, etc.).
+- ]} moves to the end of a block.
+- % to match respective brackets on the line.
+Quick Editing Commands
+Vi is equipped with commands that enhance quick navigation and editing:
+- ; to repeat the last command.
+- " to access numbered buffers and load or access lettered buffers.
+- ~ to reverse the case of the current character and move the cursor forward.
+- . to repeat the last text-changing command.
+Source Code Formatting with Vi Editor
+One of the powerful yet often underutilized features of the Vi editor is its ability to format source code efficiently. By simply using the == command, you can format lines of code with ease, ensuring your code remains clean and readable.
+- Simple Line Formatting with <line numbers>==
+Advanced Navigation and Editing
+- Commands like gd(get variable declaration), gf(search headerfile), gh(go to headerfile from .cpp and vice-versa) facilitate efficient code traversal.
+- The ; command repeats the last 'f', 'F', 't', or 'T' command, making navigation even quicker.
+Efficient Text Manipulation
+Text manipulation in Vi is incredibly powerful:
+- The command :g/^\s*$/d deletes all blank lines effortlessly.
+- To count matches, use :%s///gn, and for search pattern counts, :%s/pattern//gn is highly effective.
+- Delete specific lines with :g/_string/d, ensuring precise and clean code.
+
+Conclusion
+Vi’s blend of powerful features, customization, and efficiency has been a cornerstone of my development journey. It transforms how you code, navigate, and manage projects, offering a seamless and powerful editing experience. I’m excited to share more of my leanings and tools with you all. 
+If you resonate with this and want to dive deeper into the world of Vi, do read my detailed article on its extensive capabilities. Let’s embark on this journey of learning and productivity together!
