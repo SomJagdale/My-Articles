@@ -1,0 +1,24 @@
+CPP - ASAN & TSAN blog
+
+Let's talk about C++ today, 
+Performance is primary  motive to consider C++ for the software development, and that performance has been achieved by fine-grained low level access to hardware and memory, allowing developers to optimize performance by managing resources more precisely than higher-level languages.
+
+However, this high performance comes with responsibilities. If developers do not manage resources diligently, they risk encountering issues such as memory leaks, buffer overflows, and race conditions. 
+
+How developer can make c++ application memory and thread safe efficiently?
+
+ASAN - Address Sanitizer
+To detects issues such as buffer overflows, use-after-free errors, heap corruption, and other types of memory-related bugs I use Address Sanitiser(ASAN)
+ASAN operates by inserting additional code for program's memory allocations and accesses, adding runtime checks to detect invalid memory operations. ASAN typically incurs a moderate overhead (2-5x slower) compared to the original program execution.
+How to equipe our regular binar with ASAN.
+Below are option I do use while compileing the regular C++ applicaiton binary with ASAN opitons 
+-fsanitize=address
+
+
+
+TSAN - Thread Sanitizer
+I do use Thread Sanitizer(TSAN) to detecting data races and threading issues in concurrent application.
+especially I used to identifies issues such as data races (simultaneous accesses to shared data without proper synchronization), deadlock conditions.
+TSAN insert the additianl code during the program compilation to track memory accesses and synchronization primitives used by threads. TSAN typically imposes a higher runtime overhead (5-20x slower) compared to the original program execution due to extensive monitoring of thread interactions
+
+How to equipe our regular binar with ASAN.
