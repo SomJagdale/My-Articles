@@ -1,24 +1,82 @@
-CPP - ASAN & TSAN blog
+Here's the corrected version with grammatical fixes:
 
-Let's talk about C++ today, 
-Performance is primary  motive to consider C++ for the software development, and that performance has been achieved by fine-grained low level access to hardware and memory, allowing developers to optimize performance by managing resources more precisely than higher-level languages.
+Performance is the primary motive for considering C++ in software development, achieved through fine-grained low-level access to hardware and memory. This allows developers to optimize performance by managing resources more precisely than higher-level languages.
 
-However, this high performance comes with responsibilities. If developers do not manage resources diligently, they risk encountering issues such as memory leaks, buffer overflows, and race conditions. 
+However, this high performance comes with responsibilities. If developers do not manage resources diligently, they risk encountering issues such as memory leaks, buffer overflows, and race conditions.
 
-How developer can make c++ application memory and thread safe efficiently?
+How can developers make C++ applications memory and thread-safe efficiently?
 
-ASAN - Address Sanitizer
-To detects issues such as buffer overflows, use-after-free errors, heap corruption, and other types of memory-related bugs I use Address Sanitiser(ASAN)
-ASAN operates by inserting additional code for program's memory allocations and accesses, adding runtime checks to detect invalid memory operations. ASAN typically incurs a moderate overhead (2-5x slower) compared to the original program execution.
-How to equipe our regular binar with ASAN.
-Below are option I do use while compileing the regular C++ applicaiton binary with ASAN opitons 
--fsanitize=address
+**ASAN - Address Sanitizer:**
+To detect issues such as buffer overflows, use-after-free errors, heap corruption, and other memory-related bugs, I use Address Sanitizer (ASAN). ASAN operates by inserting additional code for the program's memory allocations and accesses, adding runtime checks to detect invalid memory operations. ASAN typically incurs a moderate overhead (2-5x slower) compared to the original program execution.
 
+How to equip our regular binary with ASAN:
+Below are the options I use while compiling regular C++ application binaries with ASAN:
+```
+export CFLAGS="$CFLAGS -fsanitize=address"
+export LDFLAGS="$LDFLAGS -lasan"
+```
 
+You can verify the binary using the `ldd` command and check if the binary is pointing to `libasan.so`.
 
-TSAN - Thread Sanitizer
-I do use Thread Sanitizer(TSAN) to detecting data races and threading issues in concurrent application.
-especially I used to identifies issues such as data races (simultaneous accesses to shared data without proper synchronization), deadlock conditions.
-TSAN insert the additianl code during the program compilation to track memory accesses and synchronization primitives used by threads. TSAN typically imposes a higher runtime overhead (5-20x slower) compared to the original program execution due to extensive monitoring of thread interactions
+When running the binary, if it finds any leaks, it shows output like the following:
+```
+=================================================================
+==1234==ERROR: LeakSanitizer: detected memory leaks
 
-How to equipe our regular binar with ASAN.
+Direct leak of 100 byte(s) in 1 object(s) allocated from:
+    #0 operator new(unsigned long) in example.cpp:56
+    #1 FunctionA() in example.cpp:78
+    #2 main() in example.cpp:112
+
+SUMMARY: LeakSanitizer: 100 byte(s) leaked in 1 allocation(s).
+```
+
+Sometimes it shows only the address instead of the line number, function name, and file name. To get those details, I use the following command:
+```
+gaddr2line -Cf -e app_binary 0xfec9f1e8
+```
+
+**TSAN - Thread Sanitizer:**
+I use Thread Sanitizer (TSAN) to detect data races and threading issues in concurrent applications. TSAN identifies issues such as data races (simultaneous accesses to shared data without proper synchronization) and deadlock conditions. TSAN inserts additional code during program compilation to track memory accesses and synchronization primitives used by threads. TSAN typically imposes a higher runtime overhead (5-20x slower) compared to the original program execution due to extensive monitoring of thread interactions.
+
+Below are the options I use while compiling regular C++ application binaries with TSAN:
+```
+export CFLAGS="$CFLAGS -fsanitize=thread"
+export LDFLAGS="$LDFLAGS -ltsan"
+```
+
+You can verify the binary using the `ldd` command and check if the binary is pointing to `libtsan.so`.
+
+While running the application, if it finds any race condition when multiple threads try to access an object, resource, or variable, it shows output like this:
+```
+==================
+WARNING: ThreadSanitizer: data race detected
+==================
+Write of size 4 at 0x00000123 by thread T1:
+  #0 FunctionA() at example.cpp:45
+  #1 ThreadFunction(void*) at example.cpp:78
+
+Previous read of size 4 at 0x00000123 by thread T2:
+  #0 FunctionB() at example.cpp:56
+  #1 ThreadFunction(void*) at example.cpp:80
+
+Thread T1 (tid=1234) and T2 (tid=5678) created by the main thread:
+  #0 StartThread(void*) at example.cpp:112
+
+Location is global 'int shared_data' of size 4 at example.cpp:123
+
+Thread T1 (tid=1234):
+  Previous write of size 4 at 0x00000123 by T1:
+    #0 FunctionA() at example.cpp:45
+    #1 ThreadFunction(void*) at example.cpp:78
+
+Thread T2 (tid=5678):
+  Write of size 4 at 0x00000123 by T1:
+    #0 FunctionB() at example.cpp:56
+    #1 ThreadFunction(void*) at example.cpp:80
+
+==================
+ThreadSanitizer: reported 1 warning
+==================
+
+In short, using tools like Address Sanitizer (ASAN) and Thread Sanitizer (TSAN) is really important for ensuring that C++ programs are strong and dependable. While C++ achieves great performance by directly interacting with hardware, developers need to watch out for problems like memory leaks, buffer overflows, and issues with thread synchronization. These tools help catch these issues early on, making C++ applications better and more reliable overall.
